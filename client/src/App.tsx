@@ -1,35 +1,24 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { Button, Box, useTheme } from "@mui/material";
+import { useAppDispatch } from "./redux/hooks";
+import { toggleTheme } from "./redux/themeSlice";
 
-function App() {
-  const [count, setCount] = useState(0)
+const App: React.FC = () => {
+  const theme = useTheme();
+  const dispatch = useAppDispatch();
+
+  const handleToggleTheme = () => {
+    dispatch(toggleTheme());
+  };
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+    <Box sx={{ p: 3 }}>
+      <Button variant="contained" color="primary" onClick={handleToggleTheme}>
+        Toggle {theme.palette.mode === "light" ? "Dark" : "Light"} Mode
+      </Button>
+      <Box sx={{ mt: 2 }}>Current mode: {theme.palette.mode}</Box>
+      {/* Add your other components here */}
+    </Box>
+  );
+};
 
-export default App
+export default App;
