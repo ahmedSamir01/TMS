@@ -1,0 +1,8 @@
+{
+  "title": "Login",
+  "username": "username",
+  "password": "password",
+  "hint": "To login enter your login credantials below",
+  "enter-field": "enter your {{name}}",
+  "forget": "Forget password ?"
+}
