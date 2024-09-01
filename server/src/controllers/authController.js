@@ -2,12 +2,13 @@ const asyncHandler = require("express-async-handler");
 const User = require("../models/User");
 const generateToken = require("../utils/generateToken");
 
-// @desc    Register new user
+// @desc    Register a new user
 // @route   POST /api/register
 // @access  Public
 const registerUser = asyncHandler(async (req, res) => {
-  const { username, email, password } = req.body;
+  const { email, password, firstname, lastname, phone } = req.body;
 
+  // Check if the user already exists
   const userExists = await User.findOne({ email });
 
   if (userExists) {
@@ -15,17 +16,22 @@ const registerUser = asyncHandler(async (req, res) => {
     throw new Error("User already exists");
   }
 
+  // Create a new user
   const user = await User.create({
-    username,
     email,
     password,
+    firstname,
+    lastname,
+    phone,
   });
 
   if (user) {
     res.status(201).json({
       _id: user._id,
-      username: user.username,
       email: user.email,
+      firstname: user.firstname,
+      lastname: user.lastname,
+      phone: user.phone,
       token: generateToken(user._id),
     });
   } else {
@@ -45,8 +51,10 @@ const authUser = asyncHandler(async (req, res) => {
   if (user && (await user.matchPassword(password))) {
     res.json({
       _id: user._id,
-      username: user.username,
       email: user.email,
+      firstname: user.firstname,
+      lastname: user.lastname,
+      phone: user.phone,
       token: generateToken(user._id),
     });
   } else {
